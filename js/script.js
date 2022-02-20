@@ -6,19 +6,16 @@ const headerInput = document.querySelector('.header-input');
 const todoList = document.querySelector('.todo-list');
 const todoCompleted = document.querySelector('.todo-completed');
 
+
 let toDoData = JSON.parse(localStorage.getItem('todo')) || [];
-
-
-
-console.log(toDoData);
 
 const render = function(){
     todoList.innerHTML = '';
     todoCompleted.innerHTML = '';
 
-
+  
     toDoData.forEach(function(item){
-        
+
         let li = document.createElement('li');
 
         li.classList.add('todo-item');
@@ -47,12 +44,15 @@ const render = function(){
 
             if(item.completed){
                 todoCompleted.removeChild(li);
+                localStorage.removeItem('todo', JSON.stringify(toDoData));
               
             }else {
                 todoList.removeChild(li);
-                
+                localStorage.removeItem('todo', JSON.stringify(toDoData));
+
             }
         });
+
 
     });
 
@@ -60,27 +60,34 @@ const render = function(){
 
 };
 
+
+
 todoControl.addEventListener('submit', function(event){
     event.preventDefault();
 
-
+   
     if(headerInput.value === "" || headerInput.value.trim() === ""){
         return false;
        
     } else {
+
+
         let newToDo = {
 
             text: headerInput.value,
-            completed: false
+            completed: false,
+
         };
     
         toDoData.push(newToDo);
         headerInput.value = '';
     
         render();
+
     }
 
 
 });
+
 
 render();
